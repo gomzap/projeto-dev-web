@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Lista | G-Tech</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <h1>G-Tech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#produtos">Produtos</a></li>
+                    <li><a href="carrinho.html">Minha Lista</a></li>
+                    <li><a href="contato.html">Atendimento</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-section" style="margin-top: 40px; min-height: 400px;">
+            <h2>Itens Adicionados</h2>
+            <p>Confira os produtos que você separou.</p>
+            
+            <ul id="lista-carrinho" style="list-style: none; padding: 0; margin-top: 20px;">
+                </ul>
+
+            <div style="margin-top: 30px;">
+                <button onclick="limparCarrinho()" class="btn-secundary" style="background-color: #dc3545; color: white;">Limpar Lista</button>
+                <a href="contato.html" class="btn-primary" style="display: inline-block; text-decoration: none;">Solicitar Orçamento</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 G-Tech Hardware & Security. Projeto Acadêmico.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
