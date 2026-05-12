@@ -89,6 +89,69 @@ const adicionarAoCarrinho = (id) => {
     alert(`${produto.nome} adicionado à sua lista de interesse!`);
 };
 
+// Função para renderizar o carrinho na tela
+const renderizarCarrinho = () => {
+    const listaCarrinho = document.getElementById('lista-carrinho');
+    if (!listaCarrinho) return; // Só executa se estiver na página carrinho.html
+
+    listaCarrinho.innerHTML = '';
+
+    if (carrinho.length === 0) {
+        listaCarrinho.innerHTML = '<p>Sua lista está vazia.</p>';
+        return;
+    }
+
+    let total = 0;
+
+    carrinho.forEach((produto, index) => {
+        total += produto.preco;
+        const li = document.createElement('li');
+        li.style.display = 'flex';
+        li.style.justifyContent = 'space-between';
+        li.style.alignItems = 'center';
+        li.style.padding = '10px 0';
+        li.style.borderBottom = '1px solid #eee';
+        
+        li.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="${produto.imagem}" alt="${produto.nome}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                <div>
+                    <h4 style="margin: 0;">${produto.nome}</h4>
+                    <span style="color: #666; font-size: 0.9em;">${formatarMoeda(produto.preco)}</span>
+                </div>
+            </div>
+            <button onclick="removerDoCarrinho(${index})" style="background: transparent; border: none; color: #dc3545; cursor: pointer; padding: 5px; font-weight: bold;">Remover</button>
+        `;
+        listaCarrinho.appendChild(li);
+    });
+
+    // Adiciona o valor total no final da lista
+    const liTotal = document.createElement('li');
+    liTotal.style.marginTop = '20px';
+    liTotal.style.textAlign = 'right';
+    liTotal.style.fontWeight = 'bold';
+    liTotal.style.fontSize = '1.2rem';
+    liTotal.innerHTML = `Total: ${formatarMoeda(total)}`;
+    listaCarrinho.appendChild(liTotal);
+};
+
+// Função para remover apenas um item do carrinho
+const removerDoCarrinho = (index) => {
+    carrinho.splice(index, 1);
+    localStorage.setItem('gtech_carrinho', JSON.stringify(carrinho));
+    renderizarCarrinho(); // Atualiza a tela após remover
+};
+
+// Função para limpar todos os itens
+const limparCarrinho = () => {
+    carrinho = [];
+    localStorage.setItem('gtech_carrinho', JSON.stringify(carrinho));
+    renderizarCarrinho(); // Atualiza a tela após limpar
+};
+
+// Renderiza o carrinho assim que a página carrega
+renderizarCarrinho();
+
 // ==========================================
 // VALIDAÇÃO DE FORMULÁRIO (Cliente-side)
 // ==========================================
@@ -143,41 +206,3 @@ if (formContato) {
         }
     });
 }
-// ==========================================
-// RENDERIZAÇÃO DA PÁGINA DE CARRINHO
-// ==========================================
-const containerCarrinho = document.getElementById('lista-carrinho');
-
-if (containerCarrinho) {
-    const renderizarCarrinho = () => {
-        containerCarrinho.innerHTML = ''; // Limpa a tela
-        
-        if (carrinho.length === 0) {
-            containerCarrinho.innerHTML = '<p>Sua lista está vazia no momento.</p>';
-            return;
-        }
-
-        carrinho.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.style.cssText = "display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #ccc; align-items: center;";
-            
-            li.innerHTML = `
-                <span style="font-weight: bold;">${item.nome}</span>
-                <span style="color: #ff6600;">${formatarMoeda(item.preco)}</span>
-            `;
-            containerCarrinho.appendChild(li);
-        });
-    };
-
-    // Executa a função ao abrir a página
-    renderizarCarrinho();
-}
-
-// Função extra para o botão de limpar lista
-const limparCarrinho = () => {
-    if(confirm('Tem certeza que deseja limpar sua lista?')) {
-        carrinho = []; // Zera o array
-        localStorage.removeItem('gtech_carrinho'); // Apaga da memória
-        if(containerCarrinho) renderizarCarrinho(); // Atualiza a tela
-    }
-};
