@@ -2,7 +2,7 @@
 require_once '../db/conexao.php';
 
 if (!isset($_GET['id'])) {
-    header("Location: listar_pedidos.php");
+    header("Location: ../views/listar_pedidos.php");
     exit;
 }
 
@@ -27,7 +27,7 @@ if (!$pedido) {
         <div class="form-section">
             <h2>Editar Pedido #<?= $pedido['id'] ?></h2>
             <p>Altere as informações abaixo e salve.</p>
-            <form action="../actions/atualizar_pedido.php" method="POST" class="contato-form">
+            <form action="../actions/atualizar_pedido.php" method="POST" class="contato-form" onsubmit="alert('Formulário enviado com sucesso! Atualizando os dados...');">
                 <!-- Campo oculto para mandar o ID no POST -->
                 <input type="hidden" name="id" value="<?= $pedido['id'] ?>">
                 
@@ -51,8 +51,18 @@ if (!$pedido) {
                     <input type="text" name="assunto" value="<?= htmlspecialchars($pedido['assunto']) ?>" required>
                 </div>
 
+                <div class="form-group">
+                    <label>Quantidade:</label>
+                    <input type="number" name="quantidade" value="<?= htmlspecialchars($pedido['quantidade']) ?>" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mensagem:</label>
+                    <textarea name="mensagem" rows="4" required><?= htmlspecialchars($pedido['mensagem']) ?></textarea>
+                </div>
+
                 <button type="submit" class="btn-primary">Atualizar Registro</button>
-                <a href="listar_pedidos.php" class="btn-secundary" style="margin-top: 15px;">Cancelar / Voltar</a>
+                <a href="../views/listar_pedidos.php" class="btn-secundary" style="margin-top: 15px;">Cancelar / Voltar</a>
             </form>
         </div>
     </div>

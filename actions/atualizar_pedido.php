@@ -7,10 +7,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $telefone = htmlspecialchars(trim($_POST['telefone']));
     $assunto = htmlspecialchars(trim($_POST['assunto']));
+    $quantidade = filter_var($_POST['quantidade'], FILTER_VALIDATE_INT);
+    $mensagem = htmlspecialchars(trim($_POST['mensagem']));
 
     if ($id && !empty($nome) && !empty($email)) {
         try {
-            $sql = "UPDATE pedidos SET nome = :nome, email = :email, telefone = :telefone, assunto = :assunto WHERE id = :id";
+            $sql = "UPDATE pedidos SET nome = :nome, email = :email, telefone = :telefone, assunto = :assunto, quantidade = :quantidade, mensagem = :mensagem WHERE id = :id";
             $stmt = $pdo->prepare($sql);
             
             $stmt->execute([
@@ -18,6 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ':email' => $email,
                 ':telefone' => $telefone,
                 ':assunto' => $assunto,
+                ':quantidade' => $quantidade,
+                ':mensagem' => $mensagem,
                 ':id' => $id
             ]);
         } catch (PDOException $e) {
